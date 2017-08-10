@@ -121,9 +121,13 @@ public abstract class Graph {
 	 * @return The degree sequence of this graph.
 	 */
 	public List<Integer> degreeSequence() {
-		// XXX: Implement in part 1 of week 2
-		List<Integer> degreeList = new ArrayList<Integer>();
-		return null;
+		List<Integer> degreeSequenceList = new ArrayList<Integer>();
+		for (int i = 0; i < numVertices; i++) {
+			degreeSequenceList.add(getInNeighbors(i).size() + getNeighbors(i).size());
+		}
+		Collections.sort(degreeSequenceList);
+		Collections.reverse(degreeSequenceList);
+		return degreeSequenceList;
 	}
 	
 	/**
@@ -131,7 +135,6 @@ public abstract class Graph {
 	 * @param v The starting vertex
 	 * @return A list of the vertices that can be reached in exactly two hops (by 
 	 * following two edges) from vertex v.
-	 * XXX: Implement in part 2 of week 2 for each subclass of Graph
 	 */
 	public abstract List<Integer> getDistance2(int v); 
 
@@ -259,10 +262,21 @@ public abstract class Graph {
 		System.out.println("Observe most degrees are small (1-30), eight are over 100.");
 		System.out.println("****");
 		
-		//For testing Part 2 functionality
+		// For testing Part 2 functionality
 		// Test your distance2 code here.
+		
+		// TODO: Play more with tests
+		
 		System.out.println("Testing distance-two methods on sample graphs...");
 		System.out.println("Goal: implement method using two approaches.");
+		
+		GraphAdjList airportGraphList = new GraphAdjList();
+		GraphLoader.loadRoutes("data/airports/routesUA.dat", airportGraphList);
+		System.out.println(airportGraphList);
+		
+		GraphAdjMatrix airportGraphMatrix = new GraphAdjMatrix();
+		GraphLoader.loadRoutes("data/airports/routesUA.dat", airportGraphMatrix);
+		System.out.println(airportGraphMatrix);
 
 
 		
