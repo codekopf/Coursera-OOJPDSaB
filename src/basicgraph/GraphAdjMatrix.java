@@ -114,14 +114,14 @@ public class GraphAdjMatrix extends Graph {
 				// Columns A
 				twoHopDistanceAdjMatrix[i][j] = 0;
 				for (int k = 0; k < getNumVertices(); k++) {
-					twoHopDistanceAdjMatrix[i][j] = twoHopDistanceAdjMatrix[i][j] + adjMatrix[i][k] * adjMatrix[k][j];
+					twoHopDistanceAdjMatrix[i][j] += adjMatrix[i][k] * adjMatrix[k][j];
 		        }
 			}
 		}
 		
 		for (int i = 0; i < getNumVertices(); i ++) {
-			for (int j=0; j< getNumVertices(); j++) {
-				if(adjMatrix[i][j] != 0){
+			for (int j = 0; j < getNumVertices(); j++) {
+				if(twoHopDistanceAdjMatrix[i][j] != 0){
 					listOf2HopNeighbours.add(i);
 				}
 			}
