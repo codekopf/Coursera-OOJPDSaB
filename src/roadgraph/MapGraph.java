@@ -9,6 +9,7 @@ package roadgraph;
 
 
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 import java.util.function.Consumer;
@@ -36,7 +37,7 @@ public class MapGraph {
 	public MapGraph()
 	{
 		// TODO: Implement in this constructor in WEEK 3
-		this.nodes = nodes;
+
 	}
 	
 	/**
@@ -81,7 +82,15 @@ public class MapGraph {
 	public boolean addVertex(GeographicPoint location)
 	{
 		// TODO: Implement this method in WEEK 3
-		return false;
+		if (nodes.get(location) == null)
+		{
+			nodes.put(location, new MapNode());
+		}
+		else
+		{
+			return false;
+		}
+		return true;
 	}
 	
 	/**
@@ -99,7 +108,16 @@ public class MapGraph {
 	public void addEdge(GeographicPoint from, GeographicPoint to, String roadName,
 			String roadType, double length) throws IllegalArgumentException {
 
+		if ( nodes.containsKey(from) && nodes.containsKey(to)){;
+		
+		}
+		// Defensive programming - does edge exist?
+		// MapNode node = nodes.get(from);
+		// List<MapEdge> edges = node.getEdges();
+		// if(edges.contains(o))
+
 		//TODO: Implement this method in WEEK 3
+		MapEdge newMapEdge = new MapEdge(from, to, roadName, roadType, length);
 		
 	}
 	

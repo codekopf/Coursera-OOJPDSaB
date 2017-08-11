@@ -15,6 +15,7 @@ public class MapNode {
 	
 	private GeographicPoint location;
 
+
 	public GeographicPoint getLocation() {
 		return location;
 	}
@@ -30,6 +31,5 @@ public class MapNode {
 	public void setEdges(List<MapEdge> edges) {
 		this.edges = edges;
 	}
-	
 	
 }

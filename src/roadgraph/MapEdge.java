@@ -9,10 +9,9 @@ public class MapEdge {
 	private String streetName;
 	// TODO: StreetType (enum)
 	private String roadType;
-	private Double length;
+	private double length;
 	
-	public MapEdge(GeographicPoint start, GeographicPoint end, String streetName, String roadType, Double length) {
-		super();
+	public MapEdge(GeographicPoint start, GeographicPoint end, String streetName, String roadType, double length) {
 		this.start = start;
 		this.end = end;
 		this.streetName = streetName;
@@ -52,7 +51,7 @@ public class MapEdge {
 		this.roadType = roadType;
 	}
 	
-	public Double getLength() {
+	public double getLength() {
 		return length;
 	}
 	public void setLength(Double length) {
