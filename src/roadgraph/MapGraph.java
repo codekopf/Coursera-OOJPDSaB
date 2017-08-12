@@ -8,10 +8,12 @@
 package roadgraph;
 
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 import java.util.Queue;
 import java.util.Set;
 import java.util.function.Consumer;
@@ -100,7 +102,7 @@ public class MapGraph {
 		// TODO: Implement this method in WEEK 3
 		if (nodes.get(location) == null)
 		{
-			nodes.put(location, new MapNode());
+			nodes.put(location, new MapNode(location));
 		}
 		else
 		{
@@ -171,53 +173,69 @@ public class MapGraph {
 	{
 		// TODO: Implement this method in WEEK 3
 		
-		// Hook for visualization.  See writeup.
-		//nodeSearched.accept(next.getLocation());
-		// HashMap<GeographicPoint, MapNode> nodes;
-		// nodes = new HashMap<GeographicPoint, MapNode>();
-		
 		// Initialization of structures
-		Queue<GeographicPoint> searchQueue = new LinkedList<GeographicPoint>();
-		List<GeographicPoint> aleardyVisitedNodes = new LinkedList<GeographicPoint>();
+		HashMap<GeographicPoint, GeographicPoint> parentMap = new HashMap<GeographicPoint, GeographicPoint>();
+		Queue<GeographicPoint> queueToSearch = new LinkedList<GeographicPoint>();
+		Set<GeographicPoint> visitedSet = new HashSet<GeographicPoint>();
+		boolean pathExistFlag = false;
 		
 		// Enqueue S in queue and add to visited
-		searchQueue.add(start);
-		aleardyVisitedNodes.add(start);
+		queueToSearch.add(start);
+		visitedSet.add(start);
+
 		
 		// While queue is not empty:
-		while(searchQueue.isEmpty()){
+		while(!queueToSearch.isEmpty()){
 			// Dequeue node curr from front of queue
-			GeographicPoint curr = searchQueue.poll();
+			GeographicPoint curr = queueToSearch.poll();
 			
 			// Hook for visualization
 			nodeSearched.accept(curr);
-						
+			
+			// System.out.println(curr.toString());
+			//path.add(curr);
+			
 			// If curr == G return parent map 
-			// TODO : How they ment, what is parent map??
-			if (curr == goal) {
-				return aleardyVisitedNodes;
+			if (curr.equals(goal)) {
+				pathExistFlag = true;
+				break;
 			}
 			
 			// For each of curr's unvisited neighbours, n:
 			List<GeographicPoint> neighbours = nodes.get(curr).getNeighbours();
 			for (GeographicPoint neighbour : neighbours){
-				
-				// TODO: Not sure if implemented correctly these 3
-				// add n to visited set
-				// add curr as n's parent in parent map
-				// engueu n to back of queue
-				
-				// add curr as n's parent in parent map
-				// add n to visited set
-				if(!aleardyVisitedNodes.contains(neighbour)) {
+				if(!visitedSet.contains(neighbour)) {
+					// TODO: Not sure if implemented correctly these 3
+					// add n to visited set
+					visitedSet.add(neighbour);
+					
+					// add curr as n's parent in parent map
+					parentMap.put(neighbour, curr);
+					// parentMap.put(neighbour, nodes.get(curr));
+					
 					// engueu n to back of queue
-					searchQueue.add(neighbour);
+					queueToSearch.add(neighbour);
+					
 				}
-			}			
+			}
 		}
 		
-		// If we get here then there's no path;
-		return aleardyVisitedNodes;
+		// Backward loop from end to start, looping trough parentMap
+		if(pathExistFlag) {
+			LinkedList<GeographicPoint> path = new LinkedList<GeographicPoint>();
+			GeographicPoint curr = goal;
+
+			while (!curr.equals(start)) {
+				path.addFirst(curr);
+				curr = parentMap.get(curr);
+			}
+
+			path.addFirst(start);	
+			return path;	
+		} else {
+			// If we get here then there's no path;
+			return null;
+		}
 	}
 	
 
