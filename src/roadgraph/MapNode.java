@@ -32,4 +32,14 @@ public class MapNode {
 		this.edges = edges;
 	}
 	
+	public List<GeographicPoint> getNeighbours() {
+		List<GeographicPoint> neighbours = new ArrayList<>();
+		
+		for (MapEdge edge : edges) {
+		    neighbours.add(edge.getEnd());
+		}
+		
+		return neighbours;
+	}
+	
 }

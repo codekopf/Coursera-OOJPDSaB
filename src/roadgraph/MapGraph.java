@@ -9,8 +9,10 @@ package roadgraph;
 
 
 import java.util.HashMap;
-import java.util.Iterator;
+import java.util.HashSet;
+import java.util.LinkedList;
 import java.util.List;
+import java.util.Queue;
 import java.util.Set;
 import java.util.function.Consumer;
 
@@ -29,7 +31,7 @@ public class MapGraph {
 	// List vertices
 	// Map adjacency
 	//List<MapNodes> nodes = new ArrayList<MapNodes>();
-	HashMap<GeographicPoint, MapNode> nodes = new HashMap<GeographicPoint, MapNode>();
+	HashMap<GeographicPoint, MapNode> nodes;
 
 	/** 
 	 * Create a new empty MapGraph 
@@ -37,6 +39,7 @@ public class MapGraph {
 	public MapGraph()
 	{
 		// TODO: Implement in this constructor in WEEK 3
+		nodes = new HashMap<GeographicPoint, MapNode>();
 
 	}
 	
@@ -47,7 +50,7 @@ public class MapGraph {
 	public int getNumVertices()
 	{
 		//TODO: Implement this method in WEEK 3
-		return 0;
+		return nodes.size();
 	}
 	
 	/**
@@ -57,7 +60,14 @@ public class MapGraph {
 	public Set<GeographicPoint> getVertices()
 	{
 		//TODO: Implement this method in WEEK 3
-		return null;
+		Set<GeographicPoint> setOfVertices = new HashSet<GeographicPoint>();
+		
+		for (MapNode mapNode : nodes.values()) {
+			setOfVertices.add(mapNode.getLocation());
+		}
+		
+		return setOfVertices;
+	
 	}
 	
 	/**
@@ -67,7 +77,13 @@ public class MapGraph {
 	public int getNumEdges()
 	{
 		//TODO: Implement this method in WEEK 3
-		return 0;
+		int numberOfEdges = 0;
+		
+		for (MapNode mapNode : nodes.values()) {
+			numberOfEdges += mapNode.getEdges().size();
+		}
+		
+		return numberOfEdges;
 	}
 
 	
@@ -108,17 +124,24 @@ public class MapGraph {
 	public void addEdge(GeographicPoint from, GeographicPoint to, String roadName,
 			String roadType, double length) throws IllegalArgumentException {
 
-		if ( nodes.containsKey(from) && nodes.containsKey(to)){;
-		
-		}
+//		if ( nodes.containsKey(from) && nodes.containsKey(to)){;
+//		
+//		}
 		// Defensive programming - does edge exist?
 		// MapNode node = nodes.get(from);
 		// List<MapEdge> edges = node.getEdges();
 		// if(edges.contains(o))
 
 		//TODO: Implement this method in WEEK 3
-		MapEdge newMapEdge = new MapEdge(from, to, roadName, roadType, length);
+
+		// One line solution:
+		// nodes.get(from).getEdges().add(new MapEdge(from, to, roadName, roadType, length));
 		
+		MapNode mapNode = nodes.get(from);
+		List<MapEdge> mapNodeEdges = mapNode.getEdges();
+		mapNodeEdges.add(new MapEdge(from, to, roadName, roadType, length));
+
+
 	}
 	
 
@@ -150,8 +173,51 @@ public class MapGraph {
 		
 		// Hook for visualization.  See writeup.
 		//nodeSearched.accept(next.getLocation());
-
-		return null;
+		// HashMap<GeographicPoint, MapNode> nodes;
+		// nodes = new HashMap<GeographicPoint, MapNode>();
+		
+		// Initialization of structures
+		Queue<GeographicPoint> searchQueue = new LinkedList<GeographicPoint>();
+		List<GeographicPoint> aleardyVisitedNodes = new LinkedList<GeographicPoint>();
+		
+		// Enqueue S in queue and add to visited
+		searchQueue.add(start);
+		aleardyVisitedNodes.add(start);
+		
+		// While queue is not empty:
+		while(searchQueue.isEmpty()){
+			// Dequeue node curr from front of queue
+			GeographicPoint curr = searchQueue.poll();
+			
+			// Hook for visualization
+			nodeSearched.accept(curr);
+						
+			// If curr == G return parent map 
+			// TODO : How they ment, what is parent map??
+			if (curr == goal) {
+				return aleardyVisitedNodes;
+			}
+			
+			// For each of curr's unvisited neighbours, n:
+			List<GeographicPoint> neighbours = nodes.get(curr).getNeighbours();
+			for (GeographicPoint neighbour : neighbours){
+				
+				// TODO: Not sure if implemented correctly these 3
+				// add n to visited set
+				// add curr as n's parent in parent map
+				// engueu n to back of queue
+				
+				// add curr as n's parent in parent map
+				// add n to visited set
+				if(!aleardyVisitedNodes.contains(neighbour)) {
+					// engueu n to back of queue
+					searchQueue.add(neighbour);
+				}
+			}			
+		}
+		
+		// If we get here then there's no path;
+		return aleardyVisitedNodes;
 	}
 	
 
@@ -184,6 +250,8 @@ public class MapGraph {
 
 		// Hook for visualization.  See writeup.
 		//nodeSearched.accept(next.getLocation());
+		
+		
 		
 		return null;
 	}
