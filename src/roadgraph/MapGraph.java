@@ -1,7 +1,7 @@
 /**
  * @author UCSD MOOC development team and YOU
  * 
- * A class which reprsents a graph of geographic locations
+ * A class which represents a graph of geographic locations
  * Nodes in the graph are intersections between 
  *
  */
@@ -11,6 +11,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 import java.util.Queue;
 import java.util.Set;
 import java.util.function.Consumer;
@@ -27,7 +28,7 @@ import util.GraphLoader;
  */
 public class MapGraph {
 	// TODO : Add your member variables here in WEEK 3
-	HashMap<GeographicPoint, MapNode> nodes;
+	Map<GeographicPoint, MapNode> nodes;
 
 	/** 
 	 * Create a new empty MapGraph 
@@ -153,7 +154,7 @@ public class MapGraph {
 		// TODO: Implement this method in WEEK 3
 		
 		// Initialization of structures
-		HashMap<GeographicPoint, GeographicPoint> parentMap = new HashMap<GeographicPoint, GeographicPoint>();
+		Map<GeographicPoint, GeographicPoint> parentMap = new HashMap<GeographicPoint, GeographicPoint>();
 		Queue<GeographicPoint> queueToSearch = new LinkedList<GeographicPoint>();
 		Set<GeographicPoint> visitedSet = new HashSet<GeographicPoint>();
 		boolean flagPathExist = false;
@@ -187,11 +188,9 @@ public class MapGraph {
 					
 					// add curr as n's parent in parent map
 					parentMap.put(neighbour, curr);
-					// parentMap.put(neighbour, nodes.get(curr));
 					
 					// engueu n to back of queue
 					queueToSearch.add(neighbour);
-					
 				}
 			}
 		}

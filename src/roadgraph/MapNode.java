@@ -7,7 +7,7 @@ import geography.GeographicPoint;
 
 /**
  * A helping class which represent a point-node in map/graph.
- * Each point is represented by its lcoation and the number of roads connecting.
+ * Each point is represented by its location and the number of roads connecting.
  *
  */
 public class MapNode {

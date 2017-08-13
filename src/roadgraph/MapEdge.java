@@ -7,7 +7,6 @@ public class MapEdge {
 	private GeographicPoint start;
 	private GeographicPoint end;
 	private String streetName;
-	// TODO: StreetType (enum)
 	private String roadType;
 	private double length;
 	

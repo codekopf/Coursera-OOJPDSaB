@@ -32,18 +32,30 @@ My project miss src/html/index.html while my original contains my Google Maps AP
 The second week focused on the understanding difference on recording graph data structure in the form of Adjacency List and Adjacency Matrix.
 
 Week 2 files:
-basicgraph.Graph.java
-basicgraph.GraphAdjList.java
-basicgraph.GraphAdjMatrix.java
+* basicgraph.Graph.java
+* basicgraph.GraphAdjList.java
+* basicgraph.GraphAdjMatrix.java
 
 ### Week 3 ###
 The third week focused on creating custom help classes and implementing functionality for MapGraph.java file. This week teach Depth First Search (DFS) and Breadth First Search (BFS).
 
 Week 2 files:
-roadgraph/MapGraph.java
-roadgraph/MapNode.java
-roadgraph/MapEdge.java
+* roadgraph/MapGraph.java
+* roadgraph/MapNode.java
+* roadgraph/MapEdge.java
 
-Markup : ![picture alt](https://raw.githubusercontent.com/codekopf/Coursera-OOJPDSaB/master/data/images/DFS_vs_BFS.png "DFS vs. BFS")
+![picture alt](https://raw.githubusercontent.com/codekopf/Coursera-OOJPDSaB/master/data/images/DFS_vs_BFS.png "DFS vs. BFS")
 
-I think the hardest part of this week was to figure out what the creators have meant by "Parent Map". Parent Map should be the data structure which will record the movement of your pivot. It should log all connection from one point (parent) to its neighbours (children). Because by finding the destination (goal) is possible to rebuild a path connecting the dots backwards retrospectively. E.g.: From goal to last starting point (from child to parent); then from the last point to its parent etc.   
+Help material:
+* [What’s the difference between DFS and BFS?](http://www.programmerinterview.com/index.php/data-structures/dfs-vs-bfs/)
+* [Graph Traversals - Breadth First and Depth First](https://www.youtube.com/watch?v=bIA8HEEUxZI)
+
+
+I think the hardest part of this week was to figure out what the creators have meant by "Parent Map". Parent Map should be the data structure which will record the movement of your pivot. It should log all connection from one point (parent) to its neighbours (children). Because by finding the destination (goal) is possible to rebuild a path connecting the dots backwards retrospectively. E.g.: From goal to last starting point (from child to parent); then from the last point to its parent etc.
+
+
+## TODO ###
++ Improve project based on the Peer-review for the 3rd week. There are some good ideas which I got as a feedback.
++ Explain better Difference between DFS and BFS
++ Add comments for custom class methods
++ How would you implemented street type by enum?
