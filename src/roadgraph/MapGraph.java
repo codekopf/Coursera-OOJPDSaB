@@ -7,13 +7,10 @@
  */
 package roadgraph;
 
-
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Map;
 import java.util.Queue;
 import java.util.Set;
 import java.util.function.Consumer;
@@ -29,10 +26,7 @@ import util.GraphLoader;
  *
  */
 public class MapGraph {
-	//TODO: Add your member variables here in WEEK 3
-	// List vertices
-	// Map adjacency
-	//List<MapNodes> nodes = new ArrayList<MapNodes>();
+	// TODO : Add your member variables here in WEEK 3
 	HashMap<GeographicPoint, MapNode> nodes;
 
 	/** 
@@ -40,9 +34,8 @@ public class MapGraph {
 	 */
 	public MapGraph()
 	{
-		// TODO: Implement in this constructor in WEEK 3
+		// TODO : Implement in this constructor in WEEK 3
 		nodes = new HashMap<GeographicPoint, MapNode>();
-
 	}
 	
 	/**
@@ -51,7 +44,7 @@ public class MapGraph {
 	 */
 	public int getNumVertices()
 	{
-		//TODO: Implement this method in WEEK 3
+		//TODO : Implement this method in WEEK 3
 		return nodes.size();
 	}
 	
@@ -61,7 +54,7 @@ public class MapGraph {
 	 */
 	public Set<GeographicPoint> getVertices()
 	{
-		//TODO: Implement this method in WEEK 3
+		//TODO : Implement this method in WEEK 3
 		Set<GeographicPoint> setOfVertices = new HashSet<GeographicPoint>();
 		
 		for (MapNode mapNode : nodes.values()) {
@@ -69,7 +62,6 @@ public class MapGraph {
 		}
 		
 		return setOfVertices;
-	
 	}
 	
 	/**
@@ -100,12 +92,9 @@ public class MapGraph {
 	public boolean addVertex(GeographicPoint location)
 	{
 		// TODO: Implement this method in WEEK 3
-		if (nodes.get(location) == null)
-		{
+		if (nodes.get(location) == null) {
 			nodes.put(location, new MapNode(location));
-		}
-		else
-		{
+		} else {
 			return false;
 		}
 		return true;
@@ -126,14 +115,6 @@ public class MapGraph {
 	public void addEdge(GeographicPoint from, GeographicPoint to, String roadName,
 			String roadType, double length) throws IllegalArgumentException {
 
-//		if ( nodes.containsKey(from) && nodes.containsKey(to)){;
-//		
-//		}
-		// Defensive programming - does edge exist?
-		// MapNode node = nodes.get(from);
-		// List<MapEdge> edges = node.getEdges();
-		// if(edges.contains(o))
-
 		//TODO: Implement this method in WEEK 3
 
 		// One line solution:
@@ -142,8 +123,6 @@ public class MapGraph {
 		MapNode mapNode = nodes.get(from);
 		List<MapEdge> mapNodeEdges = mapNode.getEdges();
 		mapNodeEdges.add(new MapEdge(from, to, roadName, roadType, length));
-
-
 	}
 	
 
@@ -177,27 +156,24 @@ public class MapGraph {
 		HashMap<GeographicPoint, GeographicPoint> parentMap = new HashMap<GeographicPoint, GeographicPoint>();
 		Queue<GeographicPoint> queueToSearch = new LinkedList<GeographicPoint>();
 		Set<GeographicPoint> visitedSet = new HashSet<GeographicPoint>();
-		boolean pathExistFlag = false;
+		boolean flagPathExist = false;
 		
 		// Enqueue S in queue and add to visited
 		queueToSearch.add(start);
 		visitedSet.add(start);
 
-		
 		// While queue is not empty:
 		while(!queueToSearch.isEmpty()){
+			
 			// Dequeue node curr from front of queue
 			GeographicPoint curr = queueToSearch.poll();
 			
 			// Hook for visualization
 			nodeSearched.accept(curr);
-			
-			// System.out.println(curr.toString());
-			//path.add(curr);
-			
+
 			// If curr == G return parent map 
 			if (curr.equals(goal)) {
-				pathExistFlag = true;
+				flagPathExist = true;
 				break;
 			}
 			
@@ -205,7 +181,7 @@ public class MapGraph {
 			List<GeographicPoint> neighbours = nodes.get(curr).getNeighbours();
 			for (GeographicPoint neighbour : neighbours){
 				if(!visitedSet.contains(neighbour)) {
-					// TODO: Not sure if implemented correctly these 3
+
 					// add n to visited set
 					visitedSet.add(neighbour);
 					
@@ -221,7 +197,7 @@ public class MapGraph {
 		}
 		
 		// Backward loop from end to start, looping trough parentMap
-		if(pathExistFlag) {
+		if(flagPathExist) {
 			LinkedList<GeographicPoint> path = new LinkedList<GeographicPoint>();
 			GeographicPoint curr = goal;
 

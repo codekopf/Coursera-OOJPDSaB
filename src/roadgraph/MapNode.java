@@ -5,15 +5,15 @@ import java.util.List;
 
 import geography.GeographicPoint;
 
+/**
+ * A helping class which represent a point-node in map/graph.
+ * Each point is represented by its lcoation and the number of roads connecting.
+ *
+ */
 public class MapNode {
-	// int location = GeographicPoint;
-	// List<MapNodes> adj = ;/* Adjacency_nodes */
-	// List<String> StreetName;
-	// List<double distances> length = 3/3
 
-	List<MapEdge> edges = new ArrayList<MapEdge>();
-	
 	private GeographicPoint location;
+	List<MapEdge> edges = new ArrayList<MapEdge>();
 	
 	public MapNode(GeographicPoint location) {
 		this.location = location;
@@ -44,5 +44,5 @@ public class MapNode {
 		
 		return neighbours;
 	}
-	
+
 }
