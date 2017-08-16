@@ -253,20 +253,18 @@ public class MapGraph {
 		
 		Comparator<GeographicPoint> distanceComparator = new DistanceComparator();
 		// distances to infinity
-		int infinityDistance = nodes.size() + 1;
+		start.setPqDistance(0);
 		// parent HashMap
 		Map<GeographicPoint, GeographicPoint> parentMap = new HashMap<GeographicPoint, GeographicPoint>();
 		// Priority queue (PQ)
-		Queue<GeographicPoint> queueToSearch = new PriorityQueue<GeographicPoint>(infinityDistance, distanceComparator);
+		Queue<GeographicPoint> queueToSearch = new PriorityQueue<GeographicPoint>(nodes.size(), distanceComparator);
 		// visited HashSet
 		Set<GeographicPoint> visitedSet = new HashSet<GeographicPoint>();
 
 		boolean flagPathExist = false;
 
-		int hops = 0; 
 		// Enqueue {S,0} onto the PQ
 		// Enqueue S to visited
-		start.setPqDistance(hops);
 		queueToSearch.add(start);
 		// ???? Enqueue {S,0} onto the PQ
 
@@ -295,8 +293,9 @@ public class MapGraph {
 				List<GeographicPoint> neighbours = nodes.get(curr).getNeighbours();
 				for (GeographicPoint neighbour : neighbours){
 					if(!visitedSet.contains(neighbour)) {
-						hops += 1;
-						neighbour.setPqDistance(hops);
+						
+						neighbour.setPqDistance(curr.distance(neighbour));
+
 						// If path through curr to n is shorter
 						if(curr.getPqDistance() < neighbour.getPqDistance()) {
 							// Update curr as n's parent in parent map

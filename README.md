@@ -57,6 +57,8 @@ I think the hardest part of this week was to figure out what the creators have m
 ### Week 3 ###
 The fourth week is about implementing Dijkstra's algorithm and A* Search algorithm.
 
+For me personaly was most hardest to understand the idea of obtaining distance. Since I always try to make algorithms as general as possible, I did not realize for a while this is very narrow task. GeographicPoint class contains method for obtainning distance between 2 nodes and therefore there is no need to create something custom. In the end all the data maps use "longitude" and "latitude" as markers and distance in arbitrary units can be compute from it.
+
 Week 3 files:
 * roadgraph/MapGraph.java
 

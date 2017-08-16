@@ -45,13 +45,13 @@ public class GeographicPoint extends Double {
     	return "Lat: " + getX() + ", Lon: " + getY();
     }
 	
-    private int pqDistance;
+    private double pqDistance;
 
-	public int getPqDistance() {
+	public double getPqDistance() {
 		return pqDistance;
 	}
 
-	public void setPqDistance(int pqDistance) {
+	public void setPqDistance(double pqDistance) {
 		this.pqDistance = pqDistance;
 	}
     
