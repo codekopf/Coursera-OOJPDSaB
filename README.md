@@ -39,7 +39,7 @@ Week 2 files:
 ### Week 3 ###
 The third week focused on creating custom help classes and implementing functionality for MapGraph.java file. This week teach Depth First Search (DFS) and Breadth First Search (BFS).
 
-Week 2 files:
+Week 3 files:
 * roadgraph/MapGraph.java
 * roadgraph/MapNode.java
 * roadgraph/MapEdge.java
@@ -52,6 +52,20 @@ Help material:
 
 
 I think the hardest part of this week was to figure out what the creators have meant by "Parent Map". Parent Map should be the data structure which will record the movement of your pivot. It should log all connection from one point (parent) to its neighbours (children). Because by finding the destination (goal) is possible to rebuild a path connecting the dots backwards retrospectively. E.g.: From goal to last starting point (from child to parent); then from the last point to its parent etc.
+
+
+### Week 3 ###
+The fourth week is about implementing Dijkstra's algorithm and A* Search algorithm.
+
+Week 3 files:
+* roadgraph/MapGraph.java
+
+Help material:
+* [Greedy Algorithms | Set 7 (Dijkstra’s shortest path algorithm)](http://www.geeksforgeeks.org/greedy-algorithms-set-6-dijkstras-shortest-path-algorithm/)
+* [Dijkstra's Algorithm](https://www.youtube.com/watch?v=gdmfOwyQlcI)
+*[Introduction to A* (interactive)](http://www.redblobgames.com/pathfinding/a-star/introduction.html)
+*[Introduction to A*](http://theory.stanford.edu/~amitp/GameProgramming/AStarComparison.html)
+*[Priority queue in Java](http://stackoverflow.com/questions/683041/java-how-do-i-use-a-priorityqueue)
 
 
 ## TODO ###
