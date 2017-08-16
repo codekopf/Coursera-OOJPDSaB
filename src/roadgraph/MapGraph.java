@@ -7,11 +7,13 @@
  */
 package roadgraph;
 
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.PriorityQueue;
 import java.util.Queue;
 import java.util.Set;
 import java.util.function.Consumer;
@@ -153,7 +155,7 @@ public class MapGraph {
 	{
 		// TODO: Implement this method in WEEK 3
 		
-		// Initialization of structures
+		// Initialize structures
 		Map<GeographicPoint, GeographicPoint> parentMap = new HashMap<GeographicPoint, GeographicPoint>();
 		Queue<GeographicPoint> queueToSearch = new LinkedList<GeographicPoint>();
 		Set<GeographicPoint> visitedSet = new HashSet<GeographicPoint>();
@@ -245,8 +247,87 @@ public class MapGraph {
 		//nodeSearched.accept(next.getLocation());
 		
 		
+		// Dijkstra(S,G):
 		
-		return null;
+		// Initialize structures
+		
+		Comparator<GeographicPoint> distanceComparator = new DistanceComparator();
+		// distances to infinity
+		int infinityDistance = nodes.size() + 1;
+		// parent HashMap
+		Map<GeographicPoint, GeographicPoint> parentMap = new HashMap<GeographicPoint, GeographicPoint>();
+		// Priority queue (PQ)
+		Queue<GeographicPoint> queueToSearch = new PriorityQueue<GeographicPoint>(infinityDistance, distanceComparator);
+		// visited HashSet
+		Set<GeographicPoint> visitedSet = new HashSet<GeographicPoint>();
+
+		boolean flagPathExist = false;
+
+		int hops = 0; 
+		// Enqueue {S,0} onto the PQ
+		// Enqueue S to visited
+		start.setPqDistance(hops);
+		queueToSearch.add(start);
+		// ???? Enqueue {S,0} onto the PQ
+
+		// While PQ is not empty:
+		while(!queueToSearch.isEmpty()){
+			
+			// Dequeue node curr from front of queue
+			GeographicPoint curr = queueToSearch.poll();
+			
+			// Hook for visualization
+			nodeSearched.accept(curr);
+			
+			// If (curr is not visited)
+			if (!visitedSet.contains(curr)){
+				
+				// Add curr to visited set
+				visitedSet.add(start);
+				
+				// If curr == G return parent map 
+				if (curr.equals(goal)) {
+					flagPathExist = true;
+					break;
+				}
+				
+				// For each of curr's neighbors, n, not in visited set:
+				List<GeographicPoint> neighbours = nodes.get(curr).getNeighbours();
+				for (GeographicPoint neighbour : neighbours){
+					if(!visitedSet.contains(neighbour)) {
+						hops += 1;
+						neighbour.setPqDistance(hops);
+						// If path through curr to n is shorter
+						if(curr.getPqDistance() < neighbour.getPqDistance()) {
+							// Update curr as n's parent in parent map
+							parentMap.put(neighbour, curr);
+							
+							// Enqueue {n,distance} into the PQ
+							queueToSearch.add(neighbour);
+						}
+					}
+				}
+			}
+
+		  //if we get here then there's no path from S to G
+		}
+		
+		// Backward loop from end to start, looping trough parentMap
+		if(flagPathExist) {
+			LinkedList<GeographicPoint> path = new LinkedList<GeographicPoint>();
+			GeographicPoint curr = goal;
+
+			while (!curr.equals(start)) {
+				path.addFirst(curr);
+				curr = parentMap.get(curr);
+			}
+
+			path.addFirst(start);	
+			return path;	
+		} else {
+			// If we get here then there's no path;
+			return null;
+		}
 	}
 
 	/** Find the path from start to goal using A-Star search

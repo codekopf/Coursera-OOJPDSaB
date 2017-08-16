@@ -14,7 +14,7 @@ public class MapNode {
 
 	private GeographicPoint location;
 	List<MapEdge> edges = new ArrayList<MapEdge>();
-	
+
 	public MapNode(GeographicPoint location) {
 		this.location = location;
 	}
