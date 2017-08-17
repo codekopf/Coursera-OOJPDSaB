@@ -3,7 +3,7 @@ package geography;
 import java.awt.geom.Point2D.Double;
 
 @SuppressWarnings("serial")
-public class GeographicPoint extends Double {
+public class GeographicPoint extends Double implements Comparable {
 	
 	public GeographicPoint(double latitude, double longitude)
 	{
@@ -53,6 +53,18 @@ public class GeographicPoint extends Double {
 
 	public void setPqDistance(double pqDistance) {
 		this.pqDistance = pqDistance;
+	}
+
+	@Override
+	public int compareTo(Object o) {
+		GeographicPoint toCompareGeographicPoint = (GeographicPoint)o; 
+		if (this.getPqDistance() < toCompareGeographicPoint.getPqDistance()) {
+            return -1;
+        }
+        if (this.getPqDistance() > toCompareGeographicPoint.getPqDistance()) {
+            return 1;
+        }
+        return 0;
 	}
     
 	
