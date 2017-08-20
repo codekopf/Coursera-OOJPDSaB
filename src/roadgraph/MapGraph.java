@@ -7,10 +7,8 @@
  */
 package roadgraph;
 
-import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -200,16 +198,7 @@ public class MapGraph {
 		
 		// Backward loop from end to start, looping trough parentMap
 		if(flagPathExist) {
-			LinkedList<GeographicPoint> path = new LinkedList<GeographicPoint>();
-			GeographicPoint curr = goal;
-
-			while (!curr.equals(start)) {
-				path.addFirst(curr);
-				curr = parentMap.get(curr);
-			}
-
-			path.addFirst(start);	
-			return path;	
+			return buildPath(parentMap, start, goal);	
 		} else {
 			// If we get here then there's no path;
 			return null;
@@ -303,21 +292,13 @@ public class MapGraph {
 		
 		// Backward loop from end to start, looping trough parentMap
 		if(flagPathExist) {
-			LinkedList<GeographicPoint> path = new LinkedList<GeographicPoint>();
-			GeographicPoint curr = goal;
-
-			while (!curr.equals(start)) {
-				path.addFirst(curr);
-				curr = parentMap.get(curr);
-			}
-
-			path.addFirst(start);	
-			return path;	
+			return buildPath(parentMap, start, goal);
 		} else {
 			// If we get here then there's no path from S to G
 			return null;
 		}
 	}
+
 
 	/** Find the path from start to goal using A-Star search
 	 * 
@@ -351,6 +332,26 @@ public class MapGraph {
 		return null;
 	}
 
+	/** Build path going backwards from goal to start.
+	 *  
+	 * @param parentMap The hashmap with key storing neighbour coordinates and value 
+	 * 			storing current node coordinates. Going backwards with direction from 
+	 * 			goal to start is possible to build path from start to goal. 
+	 * @param start The start point (map node) coordinates
+	 * @param goal The end point coordinates
+	 */
+	private List<GeographicPoint> buildPath(Map<GeographicPoint, GeographicPoint> parentMap, GeographicPoint start, GeographicPoint goal) {
+		LinkedList<GeographicPoint> path = new LinkedList<GeographicPoint>();
+		GeographicPoint curr = goal;
+
+		while (!curr.equals(start)) {
+			path.addFirst(curr);
+			curr = parentMap.get(curr);
+		}
+
+		path.addFirst(start);	
+		return path;	
+	}
 	
 	
 	public static void main(String[] args)
