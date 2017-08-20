@@ -285,16 +285,18 @@ public class MapGraph {
 				for (MapNode neighbour : neighbours){
 					if(!visitedSet.contains(neighbour)) {
 						
-						double toNeigbour = curr.getPqDistance() + curr.distance(neighbour.getLocation());
+						double throughMeAndNeigbour = curr.getPqDistance() + curr.distance(neighbour.getLocation());
+						double throughNeighbour = neighbour.getPqDistance();
 						
 						// If path through curr to n is shorter
-						if(toNeigbour < neighbour.getPqDistance()) {
+						// (Dijkstra) - If path through curr to n is shorter
+						if(throughMeAndNeigbour < throughNeighbour) {
 						
 							// Update curr as n's parent in parent map
 							parentMap.put(neighbour, curr);
 							
 							// Enqueue {n,distance} into the PQ
-							neighbour.setPqDistance(toNeigbour);
+							neighbour.setPqDistance(throughMeAndNeigbour);
 							queueToSearch.add(neighbour);
 						}
 					}
@@ -346,7 +348,9 @@ public class MapGraph {
 		}
 		
 		// Distances to infinity
-		nodes.values().forEach((node) -> {node.setPqDistance(Double.POSITIVE_INFINITY);});
+		nodes.values().forEach((node) -> {
+			node.setPqDistance(Double.POSITIVE_INFINITY);
+		});
 		
 		// Initialize structures
 		Map<MapNode, MapNode> parentMap = new HashMap<MapNode, MapNode>();	// Parent HashMap
@@ -392,7 +396,6 @@ public class MapGraph {
 						double throughMeAndNeigbour = curr.getPqDistance() + curr.distance(neighbour.getLocation())  + neighbour.distance(nodeGoal.getLocation());
 						double throughNeighbour = neighbour.getPqDistance() + neighbour.distance(nodeGoal.getLocation());
 
-						// (Dijkstra) - If path through curr to n is shorter
 		                // (A*) - If (path through curr to n + the geographic distance to goal) is shorter
 						if(throughMeAndNeigbour < throughNeighbour) {
 						
@@ -469,7 +472,7 @@ public class MapGraph {
 		 * the Week 3 End of Week Quiz, EVEN IF you score 100% on the 
 		 * programming assignment.
 		 */
-		/*
+		
 		MapGraph simpleTestMap = new MapGraph();
 		GraphLoader.loadRoadMap("data/testdata/simpletest.map", simpleTestMap);
 		
@@ -480,7 +483,11 @@ public class MapGraph {
 		List<GeographicPoint> testroute = simpleTestMap.dijkstra(testStart,testEnd);
 		List<GeographicPoint> testroute2 = simpleTestMap.aStarSearch(testStart,testEnd);
 		
-		
+		System.out.println("DK: " + testroute.size() + ", A*: " + testroute2.size());
+		System.out.println(testroute.toString());
+		System.out.println("=========================");
+		System.out.println(testroute2.toString());
+				
 		MapGraph testMap = new MapGraph();
 		GraphLoader.loadRoadMap("data/maps/utc.map", testMap);
 		
@@ -491,6 +498,7 @@ public class MapGraph {
 		testroute = testMap.dijkstra(testStart,testEnd);
 		testroute2 = testMap.aStarSearch(testStart,testEnd);
 		
+		System.out.println("DK: " + testroute.size() + ", A*: " + testroute2.size());
 		
 		// A slightly more complex test using real data
 		testStart = new GeographicPoint(32.8674388, -117.2190213);
@@ -498,11 +506,11 @@ public class MapGraph {
 		System.out.println("Test 3 using utc: Dijkstra should be 37 and AStar should be 10");
 		testroute = testMap.dijkstra(testStart,testEnd);
 		testroute2 = testMap.aStarSearch(testStart,testEnd);
-		*/
-		
+	
+		System.out.println("DK: " + testroute.size() + ", A*: " + testroute2.size());
 		
 		/* Use this code in Week 3 End of Week Quiz */
-		/*MapGraph theMap = new MapGraph();
+		MapGraph theMap = new MapGraph();
 		System.out.print("DONE. \nLoading the map...");
 		GraphLoader.loadRoadMap("data/maps/utc.map", theMap);
 		System.out.println("DONE.");
@@ -514,7 +522,7 @@ public class MapGraph {
 		List<GeographicPoint> route = theMap.dijkstra(start,end);
 		List<GeographicPoint> route2 = theMap.aStarSearch(start,end);
 
-		*/
+		
 		
 	}
 	

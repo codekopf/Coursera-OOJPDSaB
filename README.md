@@ -59,15 +59,18 @@ The fourth week is about implementing Dijkstra's algorithm and A* Search algorit
 
 For me personaly was most hardest to understand the idea of obtaining distance. Since I always try to make algorithms as general as possible, I did not realize for a while this is very narrow task. GeographicPoint class contains method for obtainning distance between 2 nodes and therefore there is no need to create something custom. In the end all the data maps use "longitude" and "latitude" as markers and distance in arbitrary units can be compute from it.
 
+#### Dev note ####
+This week I decided to rewrite whole program. I've spent several hours debugging my previous solution based on GeographicPoint for establishing nodes in graphs. Problem was in a way the program read data from datasource. My past solution was obeying all the graph edges in data store source after first run loop. I shifted 
+
 Week 3 files:
 * roadgraph/MapGraph.java
 
 Help material:
 * [Greedy Algorithms | Set 7 (Dijkstra’s shortest path algorithm)](http://www.geeksforgeeks.org/greedy-algorithms-set-6-dijkstras-shortest-path-algorithm/)
 * [Dijkstra's Algorithm](https://www.youtube.com/watch?v=gdmfOwyQlcI)
-*[Introduction to A* (interactive)](http://www.redblobgames.com/pathfinding/a-star/introduction.html)
-*[Introduction to A*](http://theory.stanford.edu/~amitp/GameProgramming/AStarComparison.html)
-*[Priority queue in Java](http://stackoverflow.com/questions/683041/java-how-do-i-use-a-priorityqueue)
+* [Introduction to A* (interactive)](http://www.redblobgames.com/pathfinding/a-star/introduction.html)
+* [Introduction to A*](http://theory.stanford.edu/~amitp/GameProgramming/AStarComparison.html)
+* [Priority queue in Java](http://stackoverflow.com/questions/683041/java-how-do-i-use-a-priorityqueue)
 
 
 ## TODO ###
@@ -75,3 +78,4 @@ Help material:
 + Explain better Difference between DFS and BFS
 + Add comments for custom class methods
 + How would you implemented street type by enum?
++ More defensive programming - check starter code for some good tips
