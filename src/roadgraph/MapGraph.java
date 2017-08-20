@@ -201,10 +201,9 @@ public class MapGraph {
 		// Backward loop from end to start, looping trough parentMap
 		if(flagPathExist) {
 			return helperBuildPath(parentMap, nodeStart, nodeGoal);	
-		} else {
-			// If we get here then there's no path;
-			return null;
 		}
+		// If we get here then there's no path from S to G
+		return null;
 	}
 	
 
@@ -281,7 +280,6 @@ public class MapGraph {
 					break;
 				}
 				
-				
 				// For each of curr's neighbors, n, not in visited set:
 				List<MapNode> neighbours = curr.getNeighbours(nodes, edges);
 				for (MapNode neighbour : neighbours){
@@ -307,10 +305,9 @@ public class MapGraph {
 		// Backward loop from end to start, looping trough parentMap
 		if(flagPathExist) {
 			return helperBuildPath(parentMap, nodeStart, nodeGoal);	
-		} else {
-			// If we get here then there's no path from S to G
-			return null;
 		}
+		// If we get here then there's no path from S to G
+		return null;
 	}
 
 
@@ -339,10 +336,83 @@ public class MapGraph {
 											 GeographicPoint goal, Consumer<GeographicPoint> nodeSearched)
 	{
 		// TODO: Implement this method in WEEK 4
+		// aStarSearch(S,G):
+		// TODO: Come with a solution how to make a method for check
+		if (!nodes.containsKey(start)) {
+			return null;
+		}
+		if (!nodes.containsKey(goal)) {
+			return null;
+		}
 		
-		// Hook for visualization.  See writeup.
-		//nodeSearched.accept(next.getLocation());
+		// Distances to infinity
+		nodes.values().forEach((node) -> {node.setPqDistance(Double.POSITIVE_INFINITY);});
 		
+		// Initialize structures
+		Map<MapNode, MapNode> parentMap = new HashMap<MapNode, MapNode>();	// Parent HashMap
+		Queue<MapNode> queueToSearch = new PriorityQueue<MapNode>(); 		// Priority Queue (PQ)
+		Set<MapNode> visitedSet = new HashSet<MapNode>();					// Visited HashSet
+		
+		boolean flagPathExist = false;
+		
+		MapNode nodeStart = nodes.get(start);
+		MapNode nodeGoal = nodes.get(goal);
+		
+		// Enqueue {S,0} onto the PQ
+		nodeStart.setPqDistance(0);
+		queueToSearch.add(nodeStart);
+
+		// While PQ is not empty:
+		while(!queueToSearch.isEmpty()){
+			
+			// Dequeue node curr from front of queue
+			MapNode curr = queueToSearch.poll();
+			
+			// Hook for visualization
+			nodeSearched.accept(curr.getLocation());
+			
+			// If (curr is not visited)
+			if(!visitedSet.contains(curr)) {
+				
+				// Add curr to visited set
+				visitedSet.add(curr);    
+				
+				// If curr == G return parent map 
+				if (curr.equals(nodeGoal)) {
+					flagPathExist = true;
+					break;
+				}
+				
+				// For each of curr's neighbors, n, not in visited set:
+				List<MapNode> neighbours = curr.getNeighbours(nodes, edges);
+				for (MapNode neighbour : neighbours){
+					if(!visitedSet.contains(neighbour)) {
+			
+						// TODO: Toto opravit throughneigh v Dijkstra
+						double throughMeAndNeigbour = curr.getPqDistance() + curr.distance(neighbour.getLocation())  + neighbour.distance(nodeGoal.getLocation());
+						double throughNeighbour = neighbour.getPqDistance() + neighbour.distance(nodeGoal.getLocation());
+
+						// (Dijkstra) - If path through curr to n is shorter
+		                // (A*) - If (path through curr to n + the geographic distance to goal) is shorter
+						if(throughMeAndNeigbour < throughNeighbour) {
+						
+							// Update curr as n's parent in parent map
+							parentMap.put(neighbour, curr);
+							
+							// Enqueue {n,distance} into the PQ
+							neighbour.setPqDistance(curr.getPqDistance() + curr.distance(neighbour.getLocation()));
+							queueToSearch.add(neighbour);
+						}
+					}
+				}
+			}
+		}
+		
+		// Backward loop from end to start, looping trough parentMap
+		if(flagPathExist) {
+			return helperBuildPath(parentMap, nodeStart, nodeGoal);	
+		}
+		// If we get here then there's no path from S to G
 		return null;
 	}
 
@@ -365,7 +435,7 @@ public class MapGraph {
 
 		path.addFirst(start.getLocation());
 		
-		helperShowBuildPath(path);
+		// helperShowBuildPath(path);
 
 		return path;	
 	}
