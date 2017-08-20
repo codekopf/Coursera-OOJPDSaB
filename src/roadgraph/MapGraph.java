@@ -153,9 +153,9 @@ public class MapGraph {
 		// TODO: Implement this method in WEEK 3
 		
 		// Initialize structures
-		Map<MapNode, MapNode> parentMap = new HashMap<MapNode, MapNode>();
-		Queue<MapNode> queueToSearch = new LinkedList<MapNode>();
-		Set<MapNode> visitedSet = new HashSet<MapNode>();
+		Map<MapNode, MapNode> parentMap = new HashMap<MapNode, MapNode>();	// Parent HashMap
+		Queue<MapNode> queueToSearch = new LinkedList<MapNode>();	 		// Priority Queue (PQ)
+		Set<MapNode> visitedSet = new HashSet<MapNode>();					// Visited HashSet
 		
 		boolean flagPathExist = false;
 		
@@ -235,6 +235,7 @@ public class MapGraph {
 	{
 		// TODO: Implement this method in WEEK 4
 		// Dijkstra(S,G):
+		// TODO: Come with a solution how to make a method for check
 		if (!nodes.containsKey(start)) {
 			return null;
 		}
@@ -243,63 +244,73 @@ public class MapGraph {
 		}
 		
 		// Distances to infinity
-		nodes.keySet().forEach((node) -> {node.setPqDistance(Double.POSITIVE_INFINITY);});
+		nodes.values().forEach((node) -> {node.setPqDistance(Double.POSITIVE_INFINITY);});
 		
-		// Parent HashMap
-		Map<GeographicPoint, GeographicPoint> parentMap = new HashMap<GeographicPoint, GeographicPoint>();
-		// Priority Queue (PQ)
-		Queue<GeographicPoint> queueToSearch = new PriorityQueue<GeographicPoint>();
-		// Visited HashSet
-		Set<GeographicPoint> visitedSet = new HashSet<GeographicPoint>();
+		// Initialize structures
+		Map<MapNode, MapNode> parentMap = new HashMap<MapNode, MapNode>();	// Parent HashMap
+		Queue<MapNode> queueToSearch = new PriorityQueue<MapNode>(); 		// Priority Queue (PQ)
+		Set<MapNode> visitedSet = new HashSet<MapNode>();					// Visited HashSet
 		
 		boolean flagPathExist = false;
-		// Enqueue {S,0} onto the PQ
-		start.setPqDistance(0);
-		queueToSearch.add(start);
 		
+		MapNode nodeStart = nodes.get(start);
+		MapNode nodeGoal = nodes.get(goal);
+		
+		// Enqueue {S,0} onto the PQ
+		nodeStart.setPqDistance(0);
+		queueToSearch.add(nodeStart);
+
 		// While PQ is not empty:
-		while(!queueToSearch.isEmpty()) {
+		while(!queueToSearch.isEmpty()){
+			
 			// Dequeue node curr from front of queue
-			GeographicPoint curr = queueToSearch.poll();
+			MapNode curr = queueToSearch.poll();
+			
 			// Hook for visualization
-			nodeSearched.accept(curr);			
+			nodeSearched.accept(curr.getLocation());
+			
 			// If (curr is not visited)
-			if (!visitedSet.contains(curr)) {
+			if(!visitedSet.contains(curr)) {
+				
 				// Add curr to visited set
 				visitedSet.add(curr);
-		
+				
 				// If curr == G return parent map 
-				if (curr.equals(goal)) {
+				if (curr.equals(nodeGoal)) {
 					flagPathExist = true;
 					break;
 				}
 				
+				
 				// For each of curr's neighbors, n, not in visited set:
-//				List<GeographicPoint> neighbours = nodes.get(curr).getNeighbours();
-//				for (GeographicPoint neighbour : neighbours) {
-//					if(!visitedSet.contains(neighbour)) {
-//						double toNeigbour = curr.getPqDistance() + curr.distance(neighbour);
-//						// If path through curr to n is shorter
-//						if(toNeigbour < neighbour.getPqDistance()) {
-//							// Update curr as n's parent in parent map
-//							parentMap.put(neighbour, curr);
-//							// Enqueue {n,distance} into the PQ
-//							neighbour.setPqDistance(toNeigbour);
-//							queueToSearch.add(neighbour);
-//						}
-//					}
-//				}
+				List<MapNode> neighbours = curr.getNeighbours(nodes, edges);
+				for (MapNode neighbour : neighbours){
+					if(!visitedSet.contains(neighbour)) {
+						
+						double toNeigbour = curr.getPqDistance() + curr.distance(neighbour.getLocation());
+						
+						// If path through curr to n is shorter
+						if(toNeigbour < neighbour.getPqDistance()) {
+						
+							// Update curr as n's parent in parent map
+							parentMap.put(neighbour, curr);
+							
+							// Enqueue {n,distance} into the PQ
+							neighbour.setPqDistance(toNeigbour);
+							queueToSearch.add(neighbour);
+						}
+					}
+				}
 			}
 		}
 		
 		// Backward loop from end to start, looping trough parentMap
-//		if(flagPathExist) {
-//			return buildPath(parentMap, start, goal);
-//		} else {
-//			// If we get here then there's no path from S to G
-//			return null;
-//		}
-		return null;
+		if(flagPathExist) {
+			return helperBuildPath(parentMap, nodeStart, nodeGoal);	
+		} else {
+			// If we get here then there's no path from S to G
+			return null;
+		}
 	}
 
 

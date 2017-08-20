@@ -12,9 +12,10 @@ import geography.GeographicPoint;
  * Each point is represented by its location and the number of roads connecting.
  *
  */
-public class MapNode {
+public class MapNode implements Comparable {
 
 	private GeographicPoint location;
+	private double pqDistance;
 	
 	private List<MapEdge> edges = new ArrayList<MapEdge>();
 
@@ -38,6 +39,14 @@ public class MapNode {
 		this.edges = edges;
 	}
 	
+	public double getPqDistance() {
+		return pqDistance;
+	}
+
+	public void setPqDistance(double pqDistance) {
+		this.pqDistance = pqDistance;
+	}
+	
 	public List<MapNode> getNeighbours(Map<GeographicPoint, MapNode> nodes, Set<MapEdge> edges) {
 		
 		List<GeographicPoint> neighboursGeographicPoint = new ArrayList<GeographicPoint>();
@@ -55,5 +64,25 @@ public class MapNode {
 		}
 		
 		return neighboursNodes;
+	}
+	
+	
+	public double distance(GeographicPoint other)
+	{
+		return this.location.distance(other);     
+	}
+	
+	
+	
+	@Override
+	public int compareTo(Object o) {
+		MapNode toCompareMapNode = (MapNode)o; 
+		if (this.getPqDistance() < toCompareMapNode.getPqDistance()) {
+            return -1;
+        }
+        if (this.getPqDistance() > toCompareMapNode.getPqDistance()) {
+            return 1;
+        }
+        return 0;
 	}
 }
