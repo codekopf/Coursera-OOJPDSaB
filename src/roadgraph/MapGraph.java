@@ -156,6 +156,7 @@ public class MapGraph {
 		Map<MapNode, MapNode> parentMap = new HashMap<MapNode, MapNode>();
 		Queue<MapNode> queueToSearch = new LinkedList<MapNode>();
 		Set<MapNode> visitedSet = new HashSet<MapNode>();
+		
 		boolean flagPathExist = false;
 		
 		MapNode nodeStart = nodes.get(start);
@@ -199,7 +200,7 @@ public class MapGraph {
 		
 		// Backward loop from end to start, looping trough parentMap
 		if(flagPathExist) {
-			return buildPath(parentMap, nodeStart, nodeGoal);	
+			return helperBuildPath(parentMap, nodeStart, nodeGoal);	
 		} else {
 			// If we get here then there's no path;
 			return null;
@@ -342,7 +343,7 @@ public class MapGraph {
 	 * @param start The start point (map node) coordinates
 	 * @param goal The end point coordinates
 	 */
-	private List<GeographicPoint> buildPath(Map<MapNode, MapNode> parentMap, MapNode start, MapNode goal) {
+	private List<GeographicPoint> helperBuildPath(Map<MapNode, MapNode> parentMap, MapNode start, MapNode goal) {
 		LinkedList<GeographicPoint> path = new LinkedList<GeographicPoint>();
 		MapNode curr = goal;
 
@@ -353,13 +354,24 @@ public class MapGraph {
 
 		path.addFirst(start.getLocation());
 		
+		helperShowBuildPath(path);
+
+		return path;	
+	}
+
+	/** Print out the points in the path
+	 * 
+	 * @param path The list of node coordinates
+	 */
+	private void helperShowBuildPath(List<GeographicPoint> path)
+	{	
 		System.out.println("THIS IS THE END OF THE LOOP");
+		System.out.println("---------------------------");
 		for(GeographicPoint point : path){
 			System.out.println(point.toString());
 		}
-		return path;	
+		System.out.println();
 	}
-	
 	
 	public static void main(String[] args)
 	{
