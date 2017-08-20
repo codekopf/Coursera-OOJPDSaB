@@ -7,6 +7,7 @@
  */
 package roadgraph;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedList;
@@ -30,6 +31,7 @@ import util.GraphLoader;
 public class MapGraph {
 	// TODO : Add your member variables here in WEEK 3
 	Map<GeographicPoint, MapNode> nodes;
+	Set<MapEdge> edges;
 
 	/** 
 	 * Create a new empty MapGraph 
@@ -38,6 +40,7 @@ public class MapGraph {
 	{
 		// TODO : Implement in this constructor in WEEK 3
 		nodes = new HashMap<GeographicPoint, MapNode>();
+		edges = new HashSet<MapEdge>();
 	}
 	
 	/**
@@ -49,7 +52,17 @@ public class MapGraph {
 		//TODO : Implement this method in WEEK 3
 		return nodes.size();
 	}
+
 	
+	/**
+	 * Get the number of road segments in the graph
+	 * @return The number of edges in the graph.
+	 */
+	public int getNumEdges()
+	{
+		//TODO: Implement this method in WEEK 3
+		return edges.size();
+	}
 	/**
 	 * Return the intersections, which are the vertices in this graph.
 	 * @return The vertices in this graph as GeographicPoints
@@ -65,24 +78,6 @@ public class MapGraph {
 		
 		return setOfVertices;
 	}
-	
-	/**
-	 * Get the number of road segments in the graph
-	 * @return The number of edges in the graph.
-	 */
-	public int getNumEdges()
-	{
-		//TODO: Implement this method in WEEK 3
-		int numberOfEdges = 0;
-		
-		for (MapNode mapNode : nodes.values()) {
-			numberOfEdges += mapNode.getEdges().size();
-		}
-		
-		return numberOfEdges;
-	}
-
-	
 	
 	/** Add a node corresponding to an intersection at a Geographic Point
 	 * If the location is already in the graph or null, this method does 
@@ -122,9 +117,12 @@ public class MapGraph {
 		// One line solution:
 		// nodes.get(from).getEdges().add(new MapEdge(from, to, roadName, roadType, length));
 		
-		MapNode mapNode = nodes.get(from);
-		List<MapEdge> mapNodeEdges = mapNode.getEdges();
-		mapNodeEdges.add(new MapEdge(from, to, roadName, roadType, length));
+		// MapNode mapNode = nodes.get(from);
+		// List<MapEdge> mapNodeEdges = mapNode.getEdges();
+		// mapNodeEdges.add(new MapEdge(from, to, roadName, roadType, length));
+		
+		edges.add(new MapEdge(from, to, roadName, roadType, length));
+		
 	}
 	
 
@@ -155,33 +153,36 @@ public class MapGraph {
 		// TODO: Implement this method in WEEK 3
 		
 		// Initialize structures
-		Map<GeographicPoint, GeographicPoint> parentMap = new HashMap<GeographicPoint, GeographicPoint>();
-		Queue<GeographicPoint> queueToSearch = new LinkedList<GeographicPoint>();
-		Set<GeographicPoint> visitedSet = new HashSet<GeographicPoint>();
+		Map<MapNode, MapNode> parentMap = new HashMap<MapNode, MapNode>();
+		Queue<MapNode> queueToSearch = new LinkedList<MapNode>();
+		Set<MapNode> visitedSet = new HashSet<MapNode>();
 		boolean flagPathExist = false;
 		
+		MapNode nodeStart = nodes.get(start);
+		MapNode nodeGoal = nodes.get(goal);
+		
 		// Enqueue S in queue and add to visited
-		queueToSearch.add(start);
-		visitedSet.add(start);
+		queueToSearch.add(nodeStart);
+		visitedSet.add(nodeStart);
 
 		// While queue is not empty:
 		while(!queueToSearch.isEmpty()){
 			
 			// Dequeue node curr from front of queue
-			GeographicPoint curr = queueToSearch.poll();
+			MapNode curr = queueToSearch.poll();
 			
 			// Hook for visualization
-			nodeSearched.accept(curr);
+			nodeSearched.accept(curr.getLocation());
 
 			// If curr == G return parent map 
-			if (curr.equals(goal)) {
+			if (curr.equals(nodeGoal)) {
 				flagPathExist = true;
 				break;
 			}
 			
 			// For each of curr's unvisited neighbours, n:
-			List<GeographicPoint> neighbours = nodes.get(curr).getNeighbours();
-			for (GeographicPoint neighbour : neighbours){
+			List<MapNode> neighbours = curr.getNeighbours(nodes, edges);
+			for (MapNode neighbour : neighbours){
 				if(!visitedSet.contains(neighbour)) {
 
 					// add n to visited set
@@ -198,7 +199,7 @@ public class MapGraph {
 		
 		// Backward loop from end to start, looping trough parentMap
 		if(flagPathExist) {
-			return buildPath(parentMap, start, goal);	
+			return buildPath(parentMap, nodeStart, nodeGoal);	
 		} else {
 			// If we get here then there's no path;
 			return null;
@@ -273,30 +274,31 @@ public class MapGraph {
 				}
 				
 				// For each of curr's neighbors, n, not in visited set:
-				List<GeographicPoint> neighbours = nodes.get(curr).getNeighbours();
-				for (GeographicPoint neighbour : neighbours) {
-					if(!visitedSet.contains(neighbour)) {
-						double toNeigbour = curr.getPqDistance() + curr.distance(neighbour);
-						// If path through curr to n is shorter
-						if(toNeigbour < neighbour.getPqDistance()) {
-							// Update curr as n's parent in parent map
-							parentMap.put(neighbour, curr);
-							// Enqueue {n,distance} into the PQ
-							neighbour.setPqDistance(toNeigbour);
-							queueToSearch.add(neighbour);
-						}
-					}
-				}
+//				List<GeographicPoint> neighbours = nodes.get(curr).getNeighbours();
+//				for (GeographicPoint neighbour : neighbours) {
+//					if(!visitedSet.contains(neighbour)) {
+//						double toNeigbour = curr.getPqDistance() + curr.distance(neighbour);
+//						// If path through curr to n is shorter
+//						if(toNeigbour < neighbour.getPqDistance()) {
+//							// Update curr as n's parent in parent map
+//							parentMap.put(neighbour, curr);
+//							// Enqueue {n,distance} into the PQ
+//							neighbour.setPqDistance(toNeigbour);
+//							queueToSearch.add(neighbour);
+//						}
+//					}
+//				}
 			}
 		}
 		
 		// Backward loop from end to start, looping trough parentMap
-		if(flagPathExist) {
-			return buildPath(parentMap, start, goal);
-		} else {
-			// If we get here then there's no path from S to G
-			return null;
-		}
+//		if(flagPathExist) {
+//			return buildPath(parentMap, start, goal);
+//		} else {
+//			// If we get here then there's no path from S to G
+//			return null;
+//		}
+		return null;
 	}
 
 
@@ -340,16 +342,21 @@ public class MapGraph {
 	 * @param start The start point (map node) coordinates
 	 * @param goal The end point coordinates
 	 */
-	private List<GeographicPoint> buildPath(Map<GeographicPoint, GeographicPoint> parentMap, GeographicPoint start, GeographicPoint goal) {
+	private List<GeographicPoint> buildPath(Map<MapNode, MapNode> parentMap, MapNode start, MapNode goal) {
 		LinkedList<GeographicPoint> path = new LinkedList<GeographicPoint>();
-		GeographicPoint curr = goal;
+		MapNode curr = goal;
 
 		while (!curr.equals(start)) {
-			path.addFirst(curr);
+			path.addFirst(curr.getLocation());
 			curr = parentMap.get(curr);
 		}
 
-		path.addFirst(start);	
+		path.addFirst(start.getLocation());
+		
+		System.out.println("THIS IS THE END OF THE LOOP");
+		for(GeographicPoint point : path){
+			System.out.println(point.toString());
+		}
 		return path;	
 	}
 	

@@ -57,4 +57,51 @@ public class MapEdge {
 		this.length = length;
 	}
 
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((end == null) ? 0 : end.hashCode());
+		long temp;
+		temp = Double.doubleToLongBits(length);
+		result = prime * result + (int) (temp ^ (temp >>> 32));
+		result = prime * result + ((roadType == null) ? 0 : roadType.hashCode());
+		result = prime * result + ((start == null) ? 0 : start.hashCode());
+		result = prime * result + ((streetName == null) ? 0 : streetName.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		MapEdge other = (MapEdge) obj;
+		if (end == null) {
+			if (other.end != null)
+				return false;
+		} else if (!end.equals(other.end))
+			return false;
+		if (Double.doubleToLongBits(length) != Double.doubleToLongBits(other.length))
+			return false;
+		if (roadType == null) {
+			if (other.roadType != null)
+				return false;
+		} else if (!roadType.equals(other.roadType))
+			return false;
+		if (start == null) {
+			if (other.start != null)
+				return false;
+		} else if (!start.equals(other.start))
+			return false;
+		if (streetName == null) {
+			if (other.streetName != null)
+				return false;
+		} else if (!streetName.equals(other.streetName))
+			return false;
+		return true;
+	}
 }

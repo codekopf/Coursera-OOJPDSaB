@@ -2,6 +2,8 @@ package roadgraph;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 import geography.GeographicPoint;
 
@@ -13,7 +15,8 @@ import geography.GeographicPoint;
 public class MapNode {
 
 	private GeographicPoint location;
-	List<MapEdge> edges = new ArrayList<MapEdge>();
+	
+	private List<MapEdge> edges = new ArrayList<MapEdge>();
 
 	public MapNode(GeographicPoint location) {
 		this.location = location;
@@ -35,14 +38,22 @@ public class MapNode {
 		this.edges = edges;
 	}
 	
-	public List<GeographicPoint> getNeighbours() {
-		List<GeographicPoint> neighbours = new ArrayList<>();
+	public List<MapNode> getNeighbours(Map<GeographicPoint, MapNode> nodes, Set<MapEdge> edges) {
+		
+		List<GeographicPoint> neighboursGeographicPoint = new ArrayList<GeographicPoint>();
 		
 		for (MapEdge edge : edges) {
-		    neighbours.add(edge.getEnd());
+			if(edge.getStart().equals(this.getLocation())) {
+				neighboursGeographicPoint.add(edge.getEnd());
+			}
 		}
 		
-		return neighbours;
+		List<MapNode> neighboursNodes = new ArrayList<MapNode>();
+		
+		for (GeographicPoint nodeGP : neighboursGeographicPoint) {
+			neighboursNodes.add(nodes.get(nodeGP));
+		}
+		
+		return neighboursNodes;
 	}
-
 }
