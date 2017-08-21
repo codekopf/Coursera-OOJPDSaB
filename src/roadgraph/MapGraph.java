@@ -350,6 +350,7 @@ public class MapGraph {
 		// Distances to infinity
 		nodes.values().forEach((node) -> {
 			node.setPqDistance(Double.POSITIVE_INFINITY);
+			node.setPredictedDistanceToGoal(Double.POSITIVE_INFINITY);
 		});
 		
 		// Initialize structures
@@ -391,19 +392,40 @@ public class MapGraph {
 				List<MapNode> neighbours = curr.getNeighbours(nodes, edges);
 				for (MapNode neighbour : neighbours){
 					if(!visitedSet.contains(neighbour)) {
+						
+//						
+//						double predDist = currDist+ (neighbor.getLocation()).distance(endNode.getLocation());
+//						if(predDist < neighbor.getDistance()){
+//							// debug
+//							// System.out.println("Adding to queue node at: "+neighbor.getLocation());
+//							// System.out.println("Curr dist: "+currDist+" Pred Distance: " + predDist);
+//							
+//							parentMap.put(neighbor, next);
+//							neighbor.setActualDistance(currDist);
+//							neighbor.setDistance(predDist);
+						
 			
 						// TODO: Toto opravit throughneigh v Dijkstra
-						double throughMeAndNeigbour = curr.getPqDistance() + curr.distance(neighbour.getLocation())  + neighbour.distance(nodeGoal.getLocation());
-						double throughNeighbour = neighbour.getPqDistance() + neighbour.distance(nodeGoal.getLocation());
+						//double throughMeAndNeigbour = curr.getPqDistance() + curr.distance(neighbour.getLocation())  + neighbour.getPredictedDistanceToGoal();
+						//double throughNeighbour = neighbour.getPqDistance() + neighbour.getPredictedDistanceToGoal();
 
+						double currDist = curr.getPqDistance() + curr.distance(neighbour.getLocation());
+						double predDist = currDist + (neighbour.getLocation()).distance(nodeGoal.getLocation());
+						
 		                // (A*) - If (path through curr to n + the geographic distance to goal) is shorter
-						if(throughMeAndNeigbour < throughNeighbour) {
+						//if(throughMeAndNeigbour < throughNeighbour) {
+						if(predDist < neighbour.getPredictedDistanceToGoal()){
 						
 							// Update curr as n's parent in parent map
 							parentMap.put(neighbour, curr);
 							
 							// Enqueue {n,distance} into the PQ
-							neighbour.setPqDistance(curr.getPqDistance() + curr.distance(neighbour.getLocation()));
+							//neighbour.setPqDistance(curr.getPqDistance() + curr.distance(neighbour.getLocation()));
+							//neighbour.setPredictedDistanceToGoal(neighbour.distance(nodeGoal.getLocation()));
+							
+							neighbour.setPqDistance(currDist);
+							neighbour.setPredictedDistanceToGoal(predDist);
+							
 							queueToSearch.add(neighbour);
 						}
 					}
@@ -459,6 +481,32 @@ public class MapGraph {
 	
 	public static void main(String[] args)
 	{
+		
+		
+		MapGraph theMap = new MapGraph();
+		System.out.print("DONE. \nLoading the map...");
+		GraphLoader.loadRoadMap("data/maps/utc.map", theMap);
+		System.out.println("DONE.");
+
+		GeographicPoint start = new GeographicPoint(32.8648772, -117.2254046);
+		GeographicPoint end = new GeographicPoint(32.8660691, -117.217393);
+
+		List<GeographicPoint> route = theMap.dijkstra(start,end);
+		List<GeographicPoint> route2 = theMap.aStarSearch(start,end);
+		
+		
+		System.out.println("DK: " + route.size() + ", A*: " + route2.size());
+		System.out.println(route.toString());
+		System.out.println("=========================");
+		System.out.println(route2.toString());
+		System.out.println("=========================");
+		System.out.println("=========================");
+		
+		//81
+		
+		
+		
+		
 		System.out.print("Making a new map...");
 		MapGraph firstMap = new MapGraph();
 		System.out.print("DONE. \nLoading the map...");
@@ -466,6 +514,7 @@ public class MapGraph {
 		System.out.println("DONE.");
 		
 		// You can use this method for testing.  
+	
 		
 		
 		/* Here are some test cases you should try before you attempt 
@@ -510,17 +559,17 @@ public class MapGraph {
 		System.out.println("DK: " + testroute.size() + ", A*: " + testroute2.size());
 		
 		/* Use this code in Week 3 End of Week Quiz */
-		MapGraph theMap = new MapGraph();
-		System.out.print("DONE. \nLoading the map...");
-		GraphLoader.loadRoadMap("data/maps/utc.map", theMap);
-		System.out.println("DONE.");
-
-		GeographicPoint start = new GeographicPoint(32.8648772, -117.2254046);
-		GeographicPoint end = new GeographicPoint(32.8660691, -117.217393);
-		
-		
-		List<GeographicPoint> route = theMap.dijkstra(start,end);
-		List<GeographicPoint> route2 = theMap.aStarSearch(start,end);
+//		MapGraph theMap = new MapGraph();
+//		System.out.print("DONE. \nLoading the map...");
+//		GraphLoader.loadRoadMap("data/maps/utc.map", theMap);
+//		System.out.println("DONE.");
+//
+//		GeographicPoint start = new GeographicPoint(32.8648772, -117.2254046);
+//		GeographicPoint end = new GeographicPoint(32.8660691, -117.217393);
+//		
+//		
+//		List<GeographicPoint> route = theMap.dijkstra(start,end);
+//		List<GeographicPoint> route2 = theMap.aStarSearch(start,end);
 
 		
 		

@@ -54,7 +54,7 @@ Help material:
 I think the hardest part of this week was to figure out what the creators have meant by "Parent Map". Parent Map should be the data structure which will record the movement of your pivot. It should log all connection from one point (parent) to its neighbours (children). Because by finding the destination (goal) is possible to rebuild a path connecting the dots backwards retrospectively. E.g.: From goal to last starting point (from child to parent); then from the last point to its parent etc.
 
 
-### Week 3 ###
+### Week 4 ###
 The fourth week is about implementing Dijkstra's algorithm and A* Search algorithm.
 
 For me personaly was most hardest to understand the idea of obtaining distance. Since I always try to make algorithms as general as possible, I did not realize for a while this is very narrow task. GeographicPoint class contains method for obtainning distance between 2 nodes and therefore there is no need to create something custom. In the end all the data maps use "longitude" and "latitude" as markers and distance in arbitrary units can be compute from it.
@@ -73,9 +73,13 @@ Help material:
 * [Priority queue in Java](http://stackoverflow.com/questions/683041/java-how-do-i-use-a-priorityqueue)
 
 
+### Week 5 ###
+Fifth week was focuse on understanding several terms in graph theory such as: Traveling Salesperson Problem; P, NP, NP-Hard problem; Hamiltonian or Eulerian graph; and others. 
+
 ## TODO ###
 + Improve project based on the Peer-review for the 3rd week. There are some good ideas which I got as a feedback.
 + Explain better Difference between DFS and BFS
 + Add comments for custom class methods
 + How would you implemented street type by enum?
 + More defensive programming - check starter code for some good tips
++ Write more tests for A* (does not look it works ...)
