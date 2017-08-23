@@ -14,51 +14,107 @@ import geography.GeographicPoint;
  */
 public class MapNode implements Comparable {
 
+	/** The node location **/
 	private GeographicPoint location;
 	
+	/** The Priority Queue Distance 
+	 *  The distance from start to current node. 
+	 *  Lower - the higher priority in priority queue
+	 *  Higher - the lower priority in priority queue
+	 */
 	private double pqDistance;
+	
+	/** The distance from node **/
 	private double predictedDistanceToGoal;
 
+	/** The list of edges **/ 
 	private List<MapEdge> edges = new ArrayList<MapEdge>();
 
-	public MapNode(GeographicPoint location) {
+	/** Constructor **/
+	public MapNode(GeographicPoint location)
+	{
 		this.location = location;
 	}
-
-	public GeographicPoint getLocation() {
+	
+	/** Setters & Getters **/
+	public void setLocation(GeographicPoint location)
+	{
+		this.location = location;
+	}
+	
+	public GeographicPoint getLocation()
+	{
 		return location;
 	}
 
-	public void setLocation(GeographicPoint location) {
-		this.location = location;
-	}
-
-	public List<MapEdge> getEdges() {
-		return edges;
-	}
-
-	public void setEdges(List<MapEdge> edges) {
+	public void setEdges(List<MapEdge> edges)
+	{
 		this.edges = edges;
 	}
 	
-	public void setPqDistance(double pqDistance) {
+	public List<MapEdge> getEdges()
+	{
+		return edges;
+	}
+	
+	public double getPqDistance()
+	{
+		return pqDistance;
+	}
+	
+	public void setPqDistance(double pqDistance)
+	{
 		this.pqDistance = pqDistance;
 	}
 	
-	public double getPqDistance() {
-		return pqDistance;
-	}
-
-	public void setPredictedDistanceToGoal(double predictedDistanceToGoal) {
-		this.predictedDistanceToGoal = predictedDistanceToGoal;
-	}
-	
-	public double getPredictedDistanceToGoal() {
+	public double getPredictedDistanceToGoal()
+	{
 		return predictedDistanceToGoal;
 	}
 	
-	public List<MapNode> getNeighbours(Map<GeographicPoint, MapNode> nodes, Set<MapEdge> edges) {
+	public void setPredictedDistanceToGoal(double predictedDistanceToGoal)
+	{
+		this.predictedDistanceToGoal = predictedDistanceToGoal;
+	}
+	
+	/** Interface Methods **/
+	
+	/** Comparable Interface **/
+	
+	/** Simple elegant solution for comparing 2 nodes for priority queue 
+	 *  based on their distance from start. 
+	 *  
+	 *  @param o Another MapNode object
+	 *  @return -1,0,1 value based on comparison meaning
+	 */
+	@Override
+	public int compareTo(Object o)
+	{
+        MapNode other = (MapNode)o; 
+		return ((Double)this.getPqDistance()).compareTo((Double) other.getPqDistance());
 		
+//		MapNode other = (MapNode)o; 
+//		double thisNodeDistance = this.getPqDistance();
+//		double otherNodeDistance = other.getPqDistance();		
+//		if (thisNodeDistance < otherNodeDistance) {
+//		    return -1;
+//		}
+//		if (otherNodeDistance > thisNodeDistance) {
+//		    return 1;
+//		}
+//		return 0;
+	}
+	
+	/** Custom Methods **/
+	
+	/** Find all neighbours based on the list of nodes and the list of edges 
+	 * 
+	 * @param nodes The map of nodes with key of their coordinates
+	 * @param edges The set of edges. Each edges has starting and ending point
+	 * @return The list of neighboring nodes of this node
+	 */
+	public List<MapNode> getNeighbours(Map<GeographicPoint, MapNode> nodes, Set<MapEdge> edges)
+	{	
 		List<GeographicPoint> neighboursGeographicPoint = new ArrayList<GeographicPoint>();
 		
 		for (MapEdge edge : edges) {
@@ -76,82 +132,14 @@ public class MapNode implements Comparable {
 		return neighboursNodes;
 	}
 	
-	
+	/** Compute the distance (in arbitrary/unspecific unit) from this node to demanded node
+	 * 
+	 * @param other The other GoegraphyPoint
+	 * @return The distance
+	 */
 	public double distance(GeographicPoint other)
 	{
 		return this.location.distance(other);     
 	}
-	
-	//@Override
-	public int compareTo(Object o) {
-		
-//		MapNode toCompareMapNode = (MapNode)other; 
-//		int lastCmp = pqDistance.compareTo(toCompareMapNode.pqDistance);
-//	    return (lastCmp != 0 ? lastCmp : firstName.compareTo(n.firstName));
-//		
-//		return this.compareTo(other.bookTitle);
-		
-//		MapNode m = (MapNode)o; 
-//		return ((Double)this.getDistance()).compareTo((Double)m.getDistance());
-//
-//		MapNode otherNode = (MapNode)o;
-//		
-//		if (otherNode.getPredictedDistanceToGoal() != 0) {
-//			if ((this.getPqDistance() + this.getPredictedDistanceToGoal()) < (otherNode.getPqDistance() + otherNode.getPredictedDistanceToGoal())) {
-//	            return -1;
-//	        }
-//	        if ((this.getPqDistance() + this.getPredictedDistanceToGoal()) > (otherNode.getPqDistance() + otherNode.getPredictedDistanceToGoal())) {
-//	            return 1;
-//	        }
-//	        if ((this.getPqDistance() + this.getPredictedDistanceToGoal()) == (otherNode.getPqDistance() + otherNode.getPredictedDistanceToGoal())) {
-//	        	return 0;
-//			}
-//		} else {
-//			if (this.getPqDistance() < otherNode.getPqDistance()) {
-//	            return -1;
-//	        }
-//	        if (this.getPqDistance() > otherNode.getPqDistance()) {
-//	            return 1;
-//	        }
-//	        return 0;
-//		}
-//		return 0;
-		
-//		MapNode otherNode = (MapNode)o;
-//		
-//		if (this.getPqDistance() < otherNode.getPqDistance()) {
-//            return -1;
-//        }
-//        if (this.getPqDistance() > otherNode.getPqDistance()) {
-//            return 1;
-//        }
-//        return 0;
-        
-        
-        MapNode m = (MapNode)o; 
-		return ((Double)this.getPqDistance()).compareTo((Double) m.getPqDistance());
 
-        
-        
-        
-        
-        
-        
-        
-        
-//		MapNode other = (MapNode)o; 
-//
-//		double thisNodeDistance = this.getPqDistance(); // + this.getPredictedDistanceToGoal();
-//		double otherNodeDistance = other.getPqDistance(); // + other.getPredictedDistanceToGoal();
-//		
-//		if (thisNodeDistance < otherNodeDistance) {
-//            return -1;
-//        }
-//        if (otherNodeDistance > thisNodeDistance) {
-//            return 1;
-//        }
-//        return 0;
-	}
-	
-	
 }
