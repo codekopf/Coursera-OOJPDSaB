@@ -285,18 +285,18 @@ public class MapGraph {
 				for (MapNode neighbour : neighbours){
 					if(!visitedSet.contains(neighbour)) {
 						
-						double throughMeAndNeigbour = curr.getPqDistance() + curr.distance(neighbour.getLocation());
-						double throughNeighbour = neighbour.getPqDistance();
+						double distanceThroughMeAndNeigbour = curr.getPqDistance() + curr.distance(neighbour.getLocation());
+						double distanceThroughNeighbour = neighbour.getPqDistance();
 						
 						// If path through curr to n is shorter
 						// (Dijkstra) - If path through curr to n is shorter
-						if(throughMeAndNeigbour < throughNeighbour) {
+						if(distanceThroughMeAndNeigbour < distanceThroughNeighbour) {
 						
 							// Update curr as n's parent in parent map
 							parentMap.put(neighbour, curr);
 							
 							// Enqueue {n,distance} into the PQ
-							neighbour.setPqDistance(throughMeAndNeigbour);
+							neighbour.setPqDistance(distanceThroughMeAndNeigbour);
 							queueToSearch.add(neighbour);
 						}
 					}
@@ -392,39 +392,19 @@ public class MapGraph {
 				List<MapNode> neighbours = curr.getNeighbours(nodes, edges);
 				for (MapNode neighbour : neighbours){
 					if(!visitedSet.contains(neighbour)) {
-						
-//						
-//						double predDist = currDist+ (neighbor.getLocation()).distance(endNode.getLocation());
-//						if(predDist < neighbor.getDistance()){
-//							// debug
-//							// System.out.println("Adding to queue node at: "+neighbor.getLocation());
-//							// System.out.println("Curr dist: "+currDist+" Pred Distance: " + predDist);
-//							
-//							parentMap.put(neighbor, next);
-//							neighbor.setActualDistance(currDist);
-//							neighbor.setDistance(predDist);
-						
-			
-						// TODO: Toto opravit throughneigh v Dijkstra
-						//double throughMeAndNeigbour = curr.getPqDistance() + curr.distance(neighbour.getLocation())  + neighbour.getPredictedDistanceToGoal();
-						//double throughNeighbour = neighbour.getPqDistance() + neighbour.getPredictedDistanceToGoal();
 
-						double currDist = curr.getPqDistance() + curr.distance(neighbour.getLocation());
-						double predDist = currDist + (neighbour.getLocation()).distance(nodeGoal.getLocation());
+						double distanceThroughMeToNeighbour = curr.getPqDistance() + curr.distance(neighbour.getLocation());
+						double distanceFromNeighbourToGoal = neighbour.distance(nodeGoal.getLocation());
 						
-		                // (A*) - If (path through curr to n + the geographic distance to goal) is shorter
-						//if(throughMeAndNeigbour < throughNeighbour) {
-						if(predDist < neighbour.getPredictedDistanceToGoal()){
+						// If (path through curr to n + the geographic distance to goal) is shorter
+						if(distanceFromNeighbourToGoal < curr.getPredictedDistanceToGoal()){
 						
 							// Update curr as n's parent in parent map
 							parentMap.put(neighbour, curr);
 							
 							// Enqueue {n,distance} into the PQ
-							//neighbour.setPqDistance(curr.getPqDistance() + curr.distance(neighbour.getLocation()));
-							//neighbour.setPredictedDistanceToGoal(neighbour.distance(nodeGoal.getLocation()));
-							
-							neighbour.setPqDistance(currDist);
-							neighbour.setPredictedDistanceToGoal(predDist);
+							neighbour.setPqDistance(distanceThroughMeToNeighbour);
+							neighbour.setPredictedDistanceToGoal(distanceFromNeighbourToGoal);
 							
 							queueToSearch.add(neighbour);
 						}
@@ -501,8 +481,6 @@ public class MapGraph {
 		System.out.println(route2.toString());
 		System.out.println("=========================");
 		System.out.println("=========================");
-		
-		//81
 		
 		
 		
