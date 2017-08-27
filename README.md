@@ -6,8 +6,6 @@ All course credits belong to course creators: Mia Minnes, Christine Alvarado, Le
 
 You can find original project "readme" in this project under README-original. You can find original licencing conditions under this project as LICENSE.
 
-[GitHub starter code](https://github.com/codekopf/Coursera-OOJPDSaB)
-
 ## Index ##
 * For project students
 * Installation
@@ -98,7 +96,7 @@ Help material:
 ### Week 5 ###
 The fifth week focused on understanding several terms in graph theory such as Traveling Salesperson Problem; P, NP, NP-Hard problem; Hamiltonian or Eulerian graph; and others. 
 
-####Study notes:####
+#### Study notes: ####
 This week is mostly about making notes. If you are already familiar with the Graph theory, this week videos help you to refresh your knowledge.
 
 #### Short theory ####
@@ -131,9 +129,10 @@ During the 6th week I rode with my friend for a wedding. We stuck unfortunately 
 
 As I was thinking, for finding an ideal path between starting and ending point should be used a metric which would be a combination of several factors such as road type, distance from the source, road blocks (traffic jams, constructions), drive cost (toll), etc. Therefore simple metric such as air-distance from source is not in praxis enough.
 
+To check solution, uncomment code in compareTo method in MapNode.java and comment existing code.
 
 Week 3 files
-* roadgraph/MapNode.jav
+* roadgraph/MapNode.java
 
 
 Here are some ideas course brought for implementation
