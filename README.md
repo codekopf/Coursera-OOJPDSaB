@@ -119,3 +119,5 @@ Ultimately, you'll decide what "counts" as an extension and we'll just ask you t
 + More defensive programming - check starter code for some good tips
 + Write more tests for A* (does not look it works ...)
 + TODO 6th week
++ Algorithm pseudocodes
++ Study materials 5th week
