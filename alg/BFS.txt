@@ -1,0 +1,11 @@
+BFS(S,G)
+	Initialization of structures
+	Enqueue S on stack and add to visited
+	while queue is not empty:
+		dequeue node curr from top of queue
+		if curr == G return parent map
+		for each of curr's unvisited neighbors, n:
+			add n to visited set
+			add curr as n's parent in parent map
+			enqueue n to top of queue
+		// If we get here then there's no path

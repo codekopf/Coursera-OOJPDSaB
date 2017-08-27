@@ -6,7 +6,24 @@ All course credits belong to course creators: Mia Minnes, Christine Alvarado, Le
 
 You can find original project "readme" in this project under README-original. You can find original licencing conditions under this project as LICENSE.
 
-## For Project Students ##  
+[GitHub starter code](https://github.com/codekopf/Coursera-OOJPDSaB)
+
+## Index ##
+* For project students
+* Installation
+* Development & Study notes
+	* Week 1
+	* Week 2
+	* Week 3
+	* Week 4
+	* Week 5
+	* Week 6
+* End note
+* TODO
+
+[This project GitHub link](https://github.com/codekopf/Coursera-OOJPDSaB)
+
+## For project students ##  
 The repository is my solution for course problems. It is not most efficient or most optimal solutions. Any constructive comments for code improvement are welcome.
 
 Please also do not copy my work. Try to come with your own ideas and your custom code(variables, iterations, etc.) Try to spend times over week exercises and try at least few different approaches to the course problems if you stuck. Trust me if I tell you it is even better to leave the course and return to it couple weeks later if you do not know the solutions right away.
@@ -21,7 +38,8 @@ The project is build with Eclipse. Installation is otherwise easy:
 Feel free to use another IDE or manually compile and run your programs.
 If you need help, google is your friend.
 
-## Development & Study Notes ##
+
+## Development & Study notes ##
 
 ### Week 1 ###
 The first week focused solely on setting up the project environment. Go according to the tutorial in a course, and you will be fine.
@@ -44,7 +62,7 @@ Week 3 files:
 * roadgraph/MapNode.java
 * roadgraph/MapEdge.java
 
-![picture alt](https://raw.githubusercontent.com/codekopf/Coursera-OOJPDSaB/master/data/images/DFS_vs_BFS.png "DFS vs. BFS")
+![picture alt](https://raw.githubusercontent.com/codekopf/Coursera-OOJPDSaB/master/content/DFS_vs_BFS.png "DFS vs. BFS")
 
 Help material:
 * [What’s the difference between DFS and BFS?](http://www.programmerinterview.com/index.php/data-structures/dfs-vs-bfs/)
@@ -131,32 +149,23 @@ Here are some ideas course brought for implementation
 
 
 4) An extension of your choice
-
-
 Ultimately, you'll decide what "counts" as an extension and we'll just ask you to report on what you accomplished. We hope you have fun and pick something which is interesting to you and you'd feel proud showcasing to others
 
 
 ## End note ##
 I have finished this course, and it was great fun. I really like a possibility actually to visualise the path search for different algorithms.
 
- 
+
 
 ## TODO ##
 
 Here are several ideas for the improvement which can I can work on more but are not necessary anymore:
 
 + Improve project based on the Peer-review for the 3rd week. There are some good ideas which I got as a feedback
-
 + Explain better Difference between DFS and BF
-
 + How would you implemented street type by enum
-
 + More defensive programming - check starter code for some good tip
-
 + Write more tests for A* (does not look it works ...
-
-+ Add to project algorithm pseudo-codes
-
 + Study materials for 5th week and make more notes here
-
 + Rewrite custom compareTo algorithm over switch and then compare the roads.
++ While building path backwards, compute the speed limit and made assumption about spped limit

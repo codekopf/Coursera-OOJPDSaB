@@ -193,7 +193,7 @@ public class MapNode implements Comparable {
 		if (roadType.equals("secondary") || roadType.equals("tertiary") || roadType.equals("unclassified")) {
 			return -1;
 		}
-		// primary
+		// primary or any other type
 		return 0;
 	}
 	

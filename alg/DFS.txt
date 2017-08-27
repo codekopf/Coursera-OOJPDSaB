@@ -1,0 +1,11 @@
+DFS(S,G)
+	Initialization of structures
+	Push S on stack and add to visited
+	while stack is not empty:
+		pop node curr from top of stack
+		if curr == G return parent map
+		for each of curr's unvisited neighbors, n:
+			add n to visited set
+			add curr as n's parent in parent map
+			push n to top of stack
+		// If we get here then there's no path
