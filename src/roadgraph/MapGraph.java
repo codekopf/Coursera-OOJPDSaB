@@ -89,12 +89,16 @@ public class MapGraph {
 	public boolean addVertex(GeographicPoint location)
 	{
 		// TODO: Implement this method in WEEK 3
+		if (location == null) {
+			return false;
+		}
 		if (nodes.get(location) == null) {
 			nodes.put(location, new MapNode(location));
+			return true;
 		} else {
 			return false;
 		}
-		return true;
+		
 	}
 	
 	/**
@@ -151,17 +155,35 @@ public class MapGraph {
 			 					     GeographicPoint goal, Consumer<GeographicPoint> nodeSearched)
 	{
 		// TODO: Implement this method in WEEK 3
+		if (!nodes.containsKey(start)) {
+			return null;
+		}
+		if (!nodes.containsKey(goal)) {
+			return null;
+		}
 		
+		if (start == null || goal == null)
+			throw new NullPointerException("Cannot find route from or to null node");
+	
+		MapNode nodeStart = nodes.get(start);
+		MapNode nodeGoal = nodes.get(goal);
+		
+		if (nodeStart == null) {
+			System.err.println("Start node " + start + " does not exist");
+			return null;
+		}
+		if (nodeGoal == null) {
+			System.err.println("End node " + goal + " does not exist");
+			return null;
+		}
+
 		// Initialize structures
 		Map<MapNode, MapNode> parentMap = new HashMap<MapNode, MapNode>();	// Parent HashMap
 		Queue<MapNode> queueToSearch = new LinkedList<MapNode>();	 		// Priority Queue (PQ)
 		Set<MapNode> visitedSet = new HashSet<MapNode>();					// Visited HashSet
 		
 		boolean flagPathExist = false;
-		
-		MapNode nodeStart = nodes.get(start);
-		MapNode nodeGoal = nodes.get(goal);
-		
+
 		// Enqueue S in queue and add to visited
 		queueToSearch.add(nodeStart);
 		visitedSet.add(nodeStart);
@@ -192,7 +214,7 @@ public class MapGraph {
 					// add curr as n's parent in parent map
 					parentMap.put(neighbour, curr);
 					
-					// engueu n to back of queue
+					// engueue n to back of queue
 					queueToSearch.add(neighbour);
 				}
 			}
@@ -203,6 +225,7 @@ public class MapGraph {
 			return helperBuildPath(parentMap, nodeStart, nodeGoal);	
 		}
 		// If we get here then there's no path from S to G
+		System.out.println("No path found from " +start+ " to " + goal);
 		return null;
 	}
 	
@@ -241,20 +264,32 @@ public class MapGraph {
 		if (!nodes.containsKey(goal)) {
 			return null;
 		}
-		
-		// Distances to infinity
-		nodes.values().forEach((node) -> {node.setPqDistance(Double.POSITIVE_INFINITY);});
-		
-		// Initialize structures
-		Map<MapNode, MapNode> parentMap = new HashMap<MapNode, MapNode>();	// Parent HashMap
-		Queue<MapNode> queueToSearch = new PriorityQueue<MapNode>(); 		// Priority Queue (PQ)
-		Set<MapNode> visitedSet = new HashSet<MapNode>();					// Visited HashSet
-		
-		boolean flagPathExist = false;
-		
+
+		if (start == null || goal == null)
+			throw new NullPointerException("Cannot find route from or to null node");
+	
 		MapNode nodeStart = nodes.get(start);
 		MapNode nodeGoal = nodes.get(goal);
 		
+		if (nodeStart == null) {
+			System.err.println("Start node " + start + " does not exist");
+			return null;
+		}
+		if (nodeGoal == null) {
+			System.err.println("End node " + goal + " does not exist");
+			return null;
+		}
+
+		// Distances to infinity
+		nodes.values().forEach((node) -> {node.setPqDistance(Double.POSITIVE_INFINITY);});
+	
+		// Initialize structures
+		Map<MapNode, MapNode> parentMap = new HashMap<MapNode, MapNode>();	// Parent HashMap
+		Queue<MapNode> queueToSearch = new LinkedList<MapNode>();	 		// Priority Queue (PQ)
+		Set<MapNode> visitedSet = new HashSet<MapNode>();					// Visited HashSet
+		
+		boolean flagPathExist = false;
+
 		// Enqueue {S,0} onto the PQ
 		nodeStart.setPqDistance(0);
 		queueToSearch.add(nodeStart);
@@ -346,23 +381,35 @@ public class MapGraph {
 		if (!nodes.containsKey(goal)) {
 			return null;
 		}
+
+		if (start == null || goal == null)
+			throw new NullPointerException("Cannot find route from or to null node");
+	
+		MapNode nodeStart = nodes.get(start);
+		MapNode nodeGoal = nodes.get(goal);
 		
+		if (nodeStart == null) {
+			System.err.println("Start node " + start + " does not exist");
+			return null;
+		}
+		if (nodeGoal == null) {
+			System.err.println("End node " + goal + " does not exist");
+			return null;
+		}
+
 		// Distances to infinity
 		nodes.values().forEach((node) -> {
 			node.setPqDistance(Double.POSITIVE_INFINITY);
 			node.setPredictedDistanceToGoal(Double.POSITIVE_INFINITY);
 		});
-		
+
 		// Initialize structures
 		Map<MapNode, MapNode> parentMap = new HashMap<MapNode, MapNode>();	// Parent HashMap
-		Queue<MapNode> queueToSearch = new PriorityQueue<MapNode>(); 		// Priority Queue (PQ)
+		Queue<MapNode> queueToSearch = new LinkedList<MapNode>();	 		// Priority Queue (PQ)
 		Set<MapNode> visitedSet = new HashSet<MapNode>();					// Visited HashSet
 		
 		boolean flagPathExist = false;
-		
-		MapNode nodeStart = nodes.get(start);
-		MapNode nodeGoal = nodes.get(goal);
-		
+
 		// Enqueue {S,0} onto the PQ
 		nodeStart.setPqDistance(0);
 		queueToSearch.add(nodeStart);
