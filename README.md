@@ -115,6 +115,16 @@ This week is mostly about making notes. If you are already familiar with the Gra
 * Define a Hamiltonian cycle in a graph - A graph is Hamiltonian if there is a path through the graph which visits each vertex exactly once.
 * Define an Eulerian circuit in a graph - A graph is Eulerian if there is a path through the graph which visits each edge exactly once.
 
+
+Help material:
+* [The traveling salesmen problem](http://www.math.uwaterloo.ca/tsp/)
+* [Traveling Salesman Problem Visualization](https://www.youtube.com/watch?v=SC5CX8drAtU)
+* [What are the differences between NP, NP-Complete and NP-Hard?](https://stackoverflow.com/questions/1857244/what-are-the-differences-between-np-np-complete-and-np-hard)
+* [What is a Hamilton path?](https://www.youtube.com/watch?v=6QFSkhcHLiA)
+* [Eulerian Path - Intro to Algorithms](https://www.youtube.com/watch?v=ycRuO-u6rt8)
+* [Difference between hamiltonian path and euler path](https://stackoverflow.com/questions/3269013/difference-between-hamiltonian-path-and-euler-path)
+
+
 ### Week 6 ### 
 The final week is devoted to creating project extension of your choice.
 
@@ -131,7 +141,7 @@ As I was thinking, for finding an ideal path between starting and ending point s
 
 To check solution, uncomment code in compareTo method in MapNode.java and comment existing code.
 
-Week 3 files
+Week 6 files:
 * roadgraph/MapNode.java
 
 
